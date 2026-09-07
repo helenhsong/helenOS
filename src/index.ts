@@ -2,3 +2,4 @@
 // import from "@helenhsong/ui" needs to be re-exported here.
 
 export * from "./components/Button";
+export * from "./components/ProjectHeader";
