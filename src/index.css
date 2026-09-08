@@ -10,6 +10,27 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* iA Writer Quattro — used by ProjectHeader — IS bundled, unlike Inter
+   below: it's SIL OFL licensed (github.com/iaolo/iA-Fonts) so
+   redistributing it is fine, and only two static weights are needed
+   here (not a whole family across every weight/italic), so the base64
+   inlining cost is ~91KB gzip rather than Inter's ~150KB. License text
+   for both weights lives at ./assets/fonts/LICENSE.md. */
+@font-face {
+  font-family: "iA Writer Quattro V";
+  src: url("./assets/fonts/iAWriterQuattroS-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "iA Writer Quattro V";
+  src: url("./assets/fonts/iAWriterQuattroS-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Inter isn't bundled — self-hosting it inlined every font file as base64
    into this stylesheet (~150KB gzip), because Tailwind's CSS bundler
    inlines @font-face url()s regardless of Vite's asset settings. Load it
@@ -156,7 +177,9 @@
 .ph-readme h3 {
   margin-top: 2em;
   margin-bottom: 0.5em;
-  font-weight: 600;
+  /* 700, not 600: only Regular and Bold are bundled (see the @font-face
+     rules above), and 700 is the one that's actually there. */
+  font-weight: 700;
   line-height: 1.3;
 }
 .ph-readme h1 {

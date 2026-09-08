@@ -64,15 +64,13 @@ flow and doesn't assume it owns the rest of the page.
 
 ### Fonts
 
-The header and README type ask for `iA Writer Quattro V`, matching
-helenhsong.com — but it isn't bundled here (see [main README](../README.md#design-decisions)
-on why fonts aren't self-hosted in general), and it's a commercial font
-bundled with the iA Writer app rather than one freely redistributable
-from a font CDN, so there's no Google Fonts link to drop in for it. If
-you have it licensed and self-hosted somewhere, load it via `@font-face`
-the same way you would any other font; otherwise leave it alone — text
-falls back to the system sans-serif stack, which is perfectly readable,
-just not the exact intended look.
+The header and README type use `iA Writer Quattro`, matching
+helenhsong.com. Unlike most fonts this package doesn't bundle (see
+[main README](../README.md#design-decisions)), this one ships in
+`@helenhsong/ui/style.css` already — it's [SIL OFL licensed](https://github.com/iaolo/iA-Fonts)
+so redistributing it is fine, and only two weights are needed. Nothing
+to do here; if the stylesheet import from step 4 is in place, the font
+just works.
 
 ## 5. Deploy to GitHub Pages
 
