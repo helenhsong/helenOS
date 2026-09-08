@@ -9,7 +9,7 @@ the shadcn CLI, then tweaked and built on top of directly in this repo.
 ## Using it in another repo
 
 ```bash
-npm install github:helenhsong/helenOS
+npm install github:helenhsong/ui
 ```
 
 `npm install` clones this repo, runs its `prepare` script (which builds
@@ -37,7 +37,7 @@ git tag v0.1.0 && git push --tags
 and depend on the tag instead of the branch:
 
 ```bash
-npm install github:helenhsong/helenOS#v0.1.0
+npm install github:helenhsong/ui#v0.1.0
 ```
 
 ## Developing in this repo

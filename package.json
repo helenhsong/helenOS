@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/helenhsong/helenOS.git"
+    "url": "git+https://github.com/helenhsong/ui.git"
   },
   "files": [
     "dist"
