@@ -1,0 +1,63 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 220px;
+  flex-shrink: 0;
+  padding: 32px 16px;
+  border-right: 1px solid rgb(230, 230, 230);
+}
+
+.brand {
+  padding: 0 8px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: #111;
+}
+
+.navGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navLabel {
+  margin: 0 0 6px;
+  padding: 0 8px;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(149, 149, 149);
+}
+
+.navItem {
+  appearance: none;
+  border: none;
+  background: none;
+  text-align: left;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+}
+
+.navItem:hover {
+  background: #f5f5f5;
+}
+
+.navItemActive,
+.navItemActive:hover {
+  background: #f0f0f0;
+  color: #111;
+  font-weight: 500;
+}
+
+.navItem:focus-visible {
+  outline: 2px solid rgb(149, 149, 149);
+  outline-offset: 2px;
+}
