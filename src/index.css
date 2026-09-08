@@ -10,23 +10,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* iA Writer Quattro — used by ProjectHeader — IS bundled, unlike Inter
-   below: it's SIL OFL licensed (github.com/iaolo/iA-Fonts) so
-   redistributing it is fine, and only two static weights are needed
-   here (not a whole family across every weight/italic), so the base64
-   inlining cost is ~91KB gzip rather than Inter's ~150KB. License text
-   for both weights lives at ./assets/fonts/LICENSE.md. */
+/* iA Writer Mono — used by ProjectHeader's header bar — IS bundled,
+   unlike Inter below: it's SIL OFL licensed (github.com/iaolo/iA-Fonts)
+   so redistributing it is fine, and only the one static weight
+   ProjectHeader actually uses is needed (not a whole family across
+   every weight/italic), so the base64 inlining cost is ~50KB gzip
+   rather than Inter's ~150KB. License text lives at
+   ./assets/fonts/LICENSE.md. */
 @font-face {
-  font-family: "iA Writer Quattro V";
-  src: url("./assets/fonts/iAWriterQuattroS-Regular.woff2") format("woff2");
+  font-family: "iA Writer Mono V";
+  src: url("./assets/fonts/iAWriterMonoS-Regular.woff2") format("woff2");
   font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "iA Writer Quattro V";
-  src: url("./assets/fonts/iAWriterQuattroS-Bold.woff2") format("woff2");
-  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
