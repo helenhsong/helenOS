@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { renderReadmeHtml } from "./readme-markdown";
 
 const labelClassName =
-  "w-fit cursor-pointer text-[13px] leading-[150%] font-['iAWriterQuattroV-Regular','iA_Writer_Quattro_V',system-ui,sans-serif] text-[#959595] transition-colors hover:text-foreground";
+  "w-fit cursor-pointer text-[13px] leading-[150%] font-['iAWriterQuattroV-Regular','iA_Writer_Quattro_V',system-ui,sans-serif] text-muted-foreground transition-colors hover:text-foreground";
 
 export interface ProjectHeaderProps {
   /** Raw Markdown content of the project's README.md, shown in the README panel. */
