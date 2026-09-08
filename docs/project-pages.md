@@ -64,16 +64,15 @@ flow and doesn't assume it owns the rest of the page.
 
 ### Fonts
 
-The header and README type use `iA Writer Quattro V`, matching
-helenhsong.com. It isn't bundled (see [main README](../README.md#design-decisions)
-on why fonts aren't self-hosted) — load it yourself, e.g. in `index.html`:
-
-```html
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=iA+Writer+Quattro+V" />
-```
-
-Without it, text falls back to the system sans-serif stack — readable,
-just not the intended look.
+The header and README type ask for `iA Writer Quattro V`, matching
+helenhsong.com — but it isn't bundled here (see [main README](../README.md#design-decisions)
+on why fonts aren't self-hosted in general), and it's a commercial font
+bundled with the iA Writer app rather than one freely redistributable
+from a font CDN, so there's no Google Fonts link to drop in for it. If
+you have it licensed and self-hosted somewhere, load it via `@font-face`
+the same way you would any other font; otherwise leave it alone — text
+falls back to the system sans-serif stack, which is perfectly readable,
+just not the exact intended look.
 
 ## 5. Deploy to GitHub Pages
 
