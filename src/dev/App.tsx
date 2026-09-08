@@ -1,22 +1,19 @@
-import type { ReactNode } from "react";
-import { Button } from "@/components/ui/button";
+import type { ComponentType } from "react";
+import { ButtonExample } from "./examples/button";
+import buttonSource from "./examples/button.tsx?raw";
+import { ComponentEntry } from "./ComponentEntry";
 
-// One entry per component. Add a new one here as components are built —
-// this list is the whole catalog.
-const components: { name: string; demo: ReactNode }[] = [
+// One entry per component. Add a new one here as components are built:
+// an examples/<slug>.tsx file that renders it (see examples/button.tsx),
+// imported twice — once normally for the live preview, once as ?raw for
+// the "View code" toggle.
+const components: { slug: string; name: string; description: string; Example: ComponentType; source: string }[] = [
   {
+    slug: "button",
     name: "Button",
-    demo: (
-      <div className="flex flex-wrap items-center gap-3">
-        <Button>Default</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="outline">Outline</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button variant="destructive">Destructive</Button>
-        <Button variant="link">Link</Button>
-        <Button disabled>Disabled</Button>
-      </div>
-    ),
+    description: "Displays a button, or a component that looks like a button.",
+    Example: ButtonExample,
+    source: buttonSource,
   },
 ];
 
@@ -28,12 +25,9 @@ export function App() {
         <h1 className="text-2xl font-semibold">Components</h1>
       </header>
 
-      <div className="flex flex-col gap-8">
-        {components.map(({ name, demo }) => (
-          <section key={name} className="flex flex-col gap-3">
-            <h2 className="text-sm font-medium text-muted-foreground">{name}</h2>
-            <div className="rounded-lg border p-6">{demo}</div>
-          </section>
+      <div className="flex flex-col gap-10">
+        {components.map((component) => (
+          <ComponentEntry key={component.slug} {...component} />
         ))}
       </div>
     </div>
