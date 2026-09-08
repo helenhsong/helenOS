@@ -6,7 +6,10 @@ description: Use when building or editing UI in a React project with (or that co
 # @helenhsong/ui
 
 Shared React component library, maintained in
-[helenOS](https://github.com/helenhsong/helenOS). One skill for the whole
+[helenOS](https://github.com/helenhsong/helenOS), built on
+[shadcn/ui](https://ui.shadcn.com) (Radix primitives + Tailwind). Tailwind
+is a build-time detail of that repo, not something this package requires —
+everything compiles down to one plain `style.css`. One skill for the whole
 library — as components are added there, a section gets appended below
 rather than a new skill being created.
 
@@ -29,23 +32,27 @@ import "@helenhsong/ui/style.css";
 
 ### Button
 
-A native `<button>` with two visual variants. All standard button
-attributes (`onClick`, `disabled`, `type`, etc.) pass straight through.
+shadcn/ui's Button, vendored in at `src/components/ui/button.tsx`. All
+standard button attributes (`onClick`, `disabled`, `type`, etc.) pass
+straight through; pass `asChild` to render your own element (e.g. a
+router `<Link>`) with the button's classes instead of a `<button>`.
 
 ```tsx
 import { Button } from "@helenhsong/ui";
 
 <Button>Save</Button>
 <Button variant="secondary">Cancel</Button>
+<Button variant="destructive" size="sm">Delete</Button>
 <Button disabled>Saving…</Button>
 ```
 
-| Prop        | Type                                      | Default     | Description                                            |
-| ----------- | ------------------------------------------ | ----------- | ------------------------------------------------------- |
-| `variant`   | `"primary" \| "secondary"`                 | `"primary"` | Visual style.                                            |
-| `children`  | `ReactNode`                                | —           | Button label/content.                                    |
-| `className` | `string`                                   | —           | Merged with the component's own classes.                 |
-| ...rest     | `ButtonHTMLAttributes<HTMLButtonElement>`  | —           | Passed through to the underlying `<button>` unchanged.   |
+| Prop        | Type                                                                                | Default     | Description                                           |
+| ----------- | ------------------------------------------------------------------------------------ | ----------- | ------------------------------------------------------ |
+| `variant`   | `"default" \| "secondary" \| "outline" \| "ghost" \| "destructive" \| "link"`         | `"default"` | Visual style.                                           |
+| `size`      | `"default" \| "xs" \| "sm" \| "lg" \| "icon" \| "icon-xs" \| "icon-sm" \| "icon-lg"`  | `"default"` | Size, including icon-only square variants.              |
+| `asChild`   | `boolean`                                                                             | `false`     | Render the passed child element instead of `<button>`.  |
+| `className` | `string`                                                                              | —           | Merged with the component's own classes.                |
+| ...rest     | `ButtonHTMLAttributes<HTMLButtonElement>`                                            | —           | Passed through to the underlying `<button>` unchanged.  |
 
 ### ProjectHeader
 

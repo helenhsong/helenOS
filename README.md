@@ -16,8 +16,14 @@ Then:
 import { Button } from "@helenhsong/ui";
 import "@helenhsong/ui/style.css"; // once, e.g. in your app's entry point
 
-<Button variant="primary">Save</Button>;
+<Button>Save</Button>;
 ```
+
+Built on [shadcn/ui](https://ui.shadcn.com) (Radix primitives + Tailwind),
+but Tailwind is a build-time detail of this repo, not something consumers
+need — `npm run build` compiles it all down to the one plain `style.css`
+above, so nothing here requires the consuming app to have Tailwind
+configured.
 
 ### Pinning a version
 
@@ -73,10 +79,18 @@ Add new work-in-progress components to `src/dev/App.tsx` to see them rendered li
 
 ### Adding a new component
 
-1. Create `src/components/MyThing/MyThing.tsx`, `MyThing.module.css`, and `index.ts` (see `src/components/Button` for the pattern).
-2. Re-export it from [src/index.ts](src/index.ts) — anything not exported there isn't part of the public package.
-3. Preview it via `src/dev/App.tsx`.
-4. Add a section for it to [skills/helenos-ui/SKILL.md](skills/helenos-ui/SKILL.md).
+- **A shadcn primitive** (Card, Dialog, Input, etc.): `npm run ui:add -- <name>`
+  vendors it into `src/components/ui/` with the CLI's own Tailwind classes
+  and Radix wiring — tweak it there, then re-export it from
+  [src/index.ts](src/index.ts).
+- **Something custom** (like `ProjectHeader`): create
+  `src/components/MyThing/MyThing.tsx`, styled with Tailwind utilities and
+  the shared `cn()` helper from `@/lib/utils` (see `ProjectHeader` for the
+  pattern), and re-export it from [src/index.ts](src/index.ts).
+
+Either way: anything not exported from `src/index.ts` isn't part of the
+public package. Preview it via `src/dev/App.tsx`, then add a section for it
+to [skills/helenos-ui/SKILL.md](skills/helenos-ui/SKILL.md).
 
 ### Scripts
 
@@ -84,9 +98,11 @@ Add new work-in-progress components to `src/dev/App.tsx` to see them rendered li
 - `npm run build` — builds the publishable package into `dist/`
 - `npm run typecheck` — type-checks `src/` without emitting
 - `npm run lint` — runs ESLint
+- `npm run ui:add -- <component>` — vendors a shadcn primitive into `src/components/ui/`
 
 ## Design decisions
 
 - **Distribution**: plain git dependency (via `prepare`), not npm/GitHub Packages — simplest to keep in sync across personal repos with no auth or publish ceremony.
-- **Styling**: CSS Modules, shipped as a single `dist/style.css` — works in any consumer without requiring Tailwind or another styling system to be configured there.
+- **Design system**: [shadcn/ui](https://ui.shadcn.com) — Radix primitives, Tailwind, `cva` variants, `cn()` merging — as the foundation to build and tweak components on top of, rather than hand-rolling each one.
+- **Styling distribution**: Tailwind is compiled away at build time into one plain `dist/style.css`, not shipped as source. Consumers get the same zero-Tailwind-required experience as before; only this repo's own build needs it.
 - **Layout**: single package at the repo root. If this grows into several independently-versioned packages, revisit as an npm/pnpm workspace monorepo.

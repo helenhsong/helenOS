@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { Button } from "../components/Button";
+import { Button } from "@/components/ui/button";
 import { ProjectHeader } from "../components/ProjectHeader";
 import helenosUiSkill from "../../skills/helenos-ui/SKILL.md?raw";
 import { PlaygroundSection } from "./PlaygroundSection";
@@ -14,8 +14,12 @@ function ProjectHeaderDemo() {
 function ButtonDemo() {
   return (
     <div className={styles.buttonRow}>
-      <Button>Primary</Button>
+      <Button>Default</Button>
       <Button variant="secondary">Secondary</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="destructive">Destructive</Button>
+      <Button variant="link">Link</Button>
       <Button disabled>Disabled</Button>
     </div>
   );

@@ -1,4 +1,4 @@
-import styles from "./ProjectHeader.module.css";
+import { cn } from "@/lib/utils";
 
 export interface ProjectHeaderProps {
   /** Label on the left, e.g. the site domain. */
@@ -16,13 +16,16 @@ export interface ProjectHeaderProps {
   className?: string;
 }
 
+const itemClassName = cn(
+  "rounded-xs font-mono text-[13px] leading-[1.5] text-muted-foreground",
+  "transition-colors hover:text-foreground",
+  "outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+);
+
 /**
  * Top bar for a project page: a site label on the left and a README
  * open/close toggle on the right. One component, two looks — which label
  * the toggle shows follows `isReadmeOpen`, it isn't a separate variant.
- *
- * Set in Geist Mono; load that font in your app (e.g. via Google Fonts or
- * next/font) or it falls back to the system monospace stack.
  */
 export function ProjectHeader({
   siteLabel = "helenhsong.com",
@@ -33,18 +36,21 @@ export function ProjectHeader({
   closeLabel = "[close]",
   className,
 }: ProjectHeaderProps) {
-  const classes = [styles.header, className].filter(Boolean).join(" ");
-
   return (
-    <header className={classes}>
+    <header className={cn("flex items-center justify-between px-8 py-6", className)} data-slot="project-header">
       {siteHref === null ? (
-        <span className={styles.label}>{siteLabel}</span>
+        <span className={itemClassName}>{siteLabel}</span>
       ) : (
-        <a href={siteHref} className={styles.label}>
+        <a href={siteHref} className={cn(itemClassName, "no-underline")}>
           {siteLabel}
         </a>
       )}
-      <button type="button" className={styles.toggle} onClick={onToggleReadme} aria-expanded={isReadmeOpen}>
+      <button
+        type="button"
+        onClick={onToggleReadme}
+        aria-expanded={isReadmeOpen}
+        className={cn(itemClassName, "cursor-pointer border-none bg-transparent p-0")}
+      >
         {isReadmeOpen ? closeLabel : openLabel}
       </button>
     </header>
