@@ -2,6 +2,12 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Tailwind's automatic content detection is scoped to the Vite dev
+   server's root (src/dev), so without this, classes used only in
+   src/components/** (like the shadcn primitives) never get compiled in
+   `npm run dev` — only in `npm run build`, which scans the whole project. */
+@source "./components";
+
 @custom-variant dark (&:is(.dark *));
 
 /* Geist isn't bundled — self-hosting it inlined every font file as base64
