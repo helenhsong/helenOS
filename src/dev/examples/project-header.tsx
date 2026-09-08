@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { ProjectHeader } from "@/components/ProjectHeader/ProjectHeader";
 
 const sampleReadme = `# cyworld
@@ -15,5 +16,22 @@ Deployed at [helenhsong.github.io/cyworld](https://helenhsong.github.io/cyworld)
 `;
 
 export function ProjectHeaderExample() {
-  return <ProjectHeader readme={sampleReadme} defaultOpen />;
+  return (
+    <div className="flex flex-col gap-6">
+      <ProjectHeader readme={sampleReadme} defaultOpen />
+
+      {/* A project page that paints something other than the plain
+          background behind the header (here, a tinted backdrop standing
+          in for cyworld's animated shader) makes the header transparent
+          and sets --project-header-bg to that color — the label text
+          darkens into a matching hue on its own, no color choice
+          required. */}
+      <div
+        className="rounded-lg p-6"
+        style={{ background: "#E8E0F2", "--project-header-bg": "#E8E0F2" } as CSSProperties}
+      >
+        <ProjectHeader readme={sampleReadme} className="bg-transparent" />
+      </div>
+    </div>
+  );
 }

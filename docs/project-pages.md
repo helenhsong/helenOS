@@ -88,6 +88,29 @@ render well:
 - Everything else (headings, lists, code blocks, links) renders with
   plain, sensible typography — no special formatting needed.
 
+### A project with its own background
+
+Most project pages just leave the header on the plain site background,
+and nothing here applies. If a project paints something else behind it —
+a color, an image, an animated shader like cyworld's — make the header
+see-through and tell it what it's sitting on:
+
+```jsx
+<div style={{ "--project-header-bg": "#E8E0F2" }}>
+  <YourColorfulBackground />
+  <ProjectHeader className="bg-transparent" readme={readme} />
+</div>
+```
+
+The header-bar label color is computed *from* `--project-header-bg`
+(default: the page background) rather than a fixed gray — on a tinted
+background it comes out as a darker, more saturated shade of that same
+color automatically, at a contrast ratio that stays accessible, with no
+color to pick yourself. Set the property to whatever's actually visible
+right behind the header; for an animated background pick its dominant/
+average color, not a color that only appears in the animation some of
+the time.
+
 ## 5. Deploy to GitHub Pages
 
 Add `.github/workflows/deploy.yml` (copy [cyworld's](https://github.com/helenhsong/cyworld/blob/main/.github/workflows/deploy.yml)):
@@ -152,5 +175,6 @@ page is live at `helenhsong.github.io/<repo-name>`.
 - [ ] `App` renders `<ProjectHeader readme={readme} />` with README.md imported via `?raw`
 - [ ] `@helenhsong/ui/style.css` imported once (also loads iA Writer Mono V for the header bar — nothing extra to do)
 - [ ] README.md opens with `# Title` + a one-line tagline paragraph, for the subtitle spacing to kick in
+- [ ] If the page has its own background: header is `bg-transparent` and `--project-header-bg` is set to it, so the label color adapts
 - [ ] `.github/workflows/deploy.yml` in place
 - [ ] Pages enabled on the repo with `build_type=workflow`

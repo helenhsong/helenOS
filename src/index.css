@@ -157,6 +157,48 @@
     }
 }
 
+/* What ProjectHeader's header-bar labels should be legible against.
+   Defaults to the page's own background token, but a project that
+   paints something else behind the header (a color, a shader/image
+   backdrop — see cyworld) should set this to that color so the label
+   text can react to it. Plain custom property, not a Tailwind/shadcn
+   design token — it's a per-project override hook, not a themeable
+   palette entry. */
+:root {
+  --project-header-bg: var(--color-background);
+}
+/* ProjectHeader's header-bar label color — computed from
+   --project-header-bg via CSS relative color syntax rather than a
+   fixed gray, so it's always "in family" with whatever the page puts
+   behind it and reads clearly on it, with no per-project color choice
+   needed:
+   - lightness is pulled 0.444 below the background's own lightness.
+     For the default white background this lands exactly on the
+     0.556 lightness this site already used as its muted-foreground
+     gray; for a tinted background it's a comparably darker shade of
+     the SAME tint rather than a shade of gray.
+   - chroma is scaled 3x. For an achromatic background (chroma 0)
+     that's still 0 — the neutral case is untouched — but for a
+     colored background it pulls the label's hue clearly into view
+     rather than reading as a faint tint of gray.
+   Verified against cyworld's lavender shader backdrop (#E8E0F2): this
+   resolves to ~#67507E, a clearly-purple label at ~5.4:1 contrast
+   (WCAG AA for the 12px size used here needs ~4.5:1).
+   Requires CSS Color 5 relative color syntax (Chrome 119+, Safari
+   16.4+, Firefox 128+) — falls back to inheriting normal text color
+   in older browsers, which is still legible, just plainer.
+
+   In `@layer components` (below Tailwind's `utilities` in this
+   project's layer order), not left unlayered like `.ph-readme` below
+   — ProjectHeader pairs this class with `hover:text-foreground`, and
+   an unlayered rule would beat that utility outright regardless of
+   specificity, breaking the hover state. */
+@layer components {
+  .ph-label {
+    color: oklch(from var(--project-header-bg) calc(l - 0.444) calc(c * 3) h);
+  }
+}
+
 /* Typography for markdown rendered by ProjectHeader's README panel —
    matches the home page's own content column: Inter, one text-sm/160%
    scale throughout, hierarchy from color and weight alone rather than
