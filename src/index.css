@@ -168,10 +168,9 @@
   --project-header-bg: var(--color-background);
 }
 /* ProjectHeader's header-bar label color — computed from
-   --project-header-bg via CSS relative color syntax rather than a
-   fixed gray, so it's always "in family" with whatever the page puts
-   behind it and reads clearly on it, with no per-project color choice
-   needed:
+   --project-header-bg rather than a fixed gray, so it's always "in
+   family" with whatever the page puts behind it and reads clearly on
+   it, with no per-project color choice needed:
    - lightness is pulled 0.444 below the background's own lightness.
      For the default white background this lands exactly on the
      0.556 lightness this site already used as its muted-foreground
@@ -184,9 +183,18 @@
    Verified against cyworld's lavender shader backdrop (#E8E0F2): this
    resolves to ~#67507E, a clearly-purple label at ~5.4:1 contrast
    (WCAG AA for the 12px size used here needs ~4.5:1).
-   Requires CSS Color 5 relative color syntax (Chrome 119+, Safari
-   16.4+, Firefox 128+) — falls back to inheriting normal text color
-   in older browsers, which is still legible, just plainer.
+
+   --project-header-fg is an escape hatch: set it (a plain, absolute
+   color — no relative-color math) and it wins outright, no matter
+   what --project-header-bg is. Exists for two reasons: a project can
+   hand-pick a color instead of accepting the computed one, and the
+   computed path needs CSS Color 5 relative color syntax (Chrome 119+,
+   Safari 16.4+, Firefox 128+) — a project that wants correctness
+   guaranteed on old browsers, or independent of the visitor's exact
+   engine version, can pin the resolved value here instead of trusting
+   live computation. Unset, it changes nothing: var()'s fallback only
+   kicks in when the property is absent, so this line is inert by
+   default and every project keeps computing its label color live.
 
    In `@layer components` (below Tailwind's `utilities` in this
    project's layer order), not left unlayered like `.ph-readme` below
@@ -195,7 +203,7 @@
    specificity, breaking the hover state. */
 @layer components {
   .ph-label {
-    color: oklch(from var(--project-header-bg) calc(l - 0.444) calc(c * 3) h);
+    color: var(--project-header-fg, oklch(from var(--project-header-bg) calc(l - 0.444) calc(c * 3) h));
   }
 }
 

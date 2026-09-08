@@ -97,17 +97,30 @@ see-through and tell it what it's sitting on:
 
 ```jsx
 <div style={{ "--project-header-bg": "#E8E0F2" }}>
-  <YourColorfulBackground />
+  <YourColorfulBackground style={{ position: "fixed", inset: 0, zIndex: -1 }} />
   <ProjectHeader className="bg-transparent" readme={readme} />
 </div>
 ```
+
+**The `zIndex: -1` matters** — a `position: fixed`/`absolute` background
+with no `z-index` still paints *above* ordinary in-flow content like the
+README panel, not below it, regardless of DOM order (that tier of the
+CSS stacking order is z-index-based, not source-order-based). Skipping
+it makes the README panel invisible under the backdrop the moment it's
+opened — cyworld shipped this exact bug once.
 
 The header-bar label color is computed *from* `--project-header-bg`
 (default: the page background) rather than a fixed gray — on a tinted
 background it comes out as a darker, more saturated shade of that same
 color automatically, at a contrast ratio that stays accessible, with no
-color to pick yourself. Set the property to whatever's actually visible
-right behind the header; for an animated background pick its dominant/
+color to pick yourself. To bypass the computation — for a hand-picked
+color, or to guarantee the result independent of the visitor's browser
+(the computation needs CSS Color 5 relative-color support: Chrome 119+,
+Safari 16.4+, Firefox 128+) — set `--project-header-fg` instead; it's a
+plain absolute color that wins outright over the computed one.
+
+Set `--project-header-bg` to whatever's actually visible right behind
+the header; for an animated background pick its dominant/
 average color, not a color that only appears in the animation some of
 the time.
 
@@ -175,6 +188,6 @@ page is live at `helenhsong.github.io/<repo-name>`.
 - [ ] `App` renders `<ProjectHeader readme={readme} />` with README.md imported via `?raw`
 - [ ] `@helenhsong/ui/style.css` imported once (also loads iA Writer Mono V for the header bar — nothing extra to do)
 - [ ] README.md opens with `# Title` + a one-line tagline paragraph, for the subtitle spacing to kick in
-- [ ] If the page has its own background: header is `bg-transparent` and `--project-header-bg` is set to it, so the label color adapts
+- [ ] If the page has its own background: header is `bg-transparent`, `--project-header-bg` is set to it, and the background itself is `zIndex: -1` (else it hides the README panel when opened)
 - [ ] `.github/workflows/deploy.yml` in place
 - [ ] Pages enabled on the repo with `build_type=workflow`
