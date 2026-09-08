@@ -85,7 +85,7 @@ export function ProjectHeader({
 
       {open && hasReadme && (
         <div
-          className="ph-readme mx-auto max-w-3xl px-8 py-10"
+          className="ph-readme mx-auto max-w-125 px-7.5 py-18"
           dangerouslySetInnerHTML={{ __html: readmeHtml }}
         />
       )}
