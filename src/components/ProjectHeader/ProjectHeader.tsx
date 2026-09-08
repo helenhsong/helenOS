@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { renderReadmeHtml } from "./readme-markdown";
 
@@ -60,6 +60,21 @@ export function ProjectHeader({
     [hasReadme, readme]
   );
 
+  const readmeOpen = open && hasReadme;
+
+  // Reflected onto <html> (not a state prop) so a project's own
+  // background — rendered as a sibling, outside this component's DOM —
+  // can react to the README opening without being wired up as a React
+  // child: `:root[data-ph-open] .my-backdrop { filter: blur(...) }`.
+  // See the "A project with its own background" section of
+  // docs/project-pages.md.
+  useEffect(() => {
+    document.documentElement.toggleAttribute("data-ph-open", readmeOpen);
+    return () => {
+      document.documentElement.removeAttribute("data-ph-open");
+    };
+  }, [readmeOpen]);
+
   return (
     <>
       <header
@@ -83,7 +98,7 @@ export function ProjectHeader({
         )}
       </header>
 
-      {open && hasReadme && (
+      {readmeOpen && (
         <div
           className="ph-readme mx-auto max-w-125 px-7.5 py-18"
           dangerouslySetInnerHTML={{ __html: readmeHtml }}

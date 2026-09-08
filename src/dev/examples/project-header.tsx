@@ -23,14 +23,14 @@ export function ProjectHeaderExample() {
       {/* A project page that paints something other than the plain
           background behind the header (here, a tinted backdrop standing
           in for cyworld's animated shader) makes the header transparent
-          and sets --project-header-bg to that color — the label text
-          darkens into a matching hue on its own, no color choice
-          required. */}
+          and sets --project-bg to that color — the label AND the
+          README panel's own text (below) darken into a matching hue on
+          their own, no color choice required. */}
       <div
         className="rounded-lg p-6"
-        style={{ background: "#E8E0F2", "--project-header-bg": "#E8E0F2" } as CSSProperties}
+        style={{ background: "#E8E0F2", "--project-bg": "#E8E0F2" } as CSSProperties}
       >
-        <ProjectHeader readme={sampleReadme} className="bg-transparent" />
+        <ProjectHeader readme={sampleReadme} className="bg-transparent" defaultOpen />
       </div>
     </div>
   );

@@ -96,7 +96,7 @@ a color, an image, an animated shader like cyworld's — make the header
 see-through and tell it what it's sitting on:
 
 ```jsx
-<div style={{ "--project-header-bg": "#E8E0F2" }}>
+<div style={{ "--project-bg": "#E8E0F2" }}>
   <YourColorfulBackground style={{ position: "fixed", inset: 0, zIndex: -1 }} />
   <ProjectHeader className="bg-transparent" readme={readme} />
 </div>
@@ -109,20 +109,40 @@ CSS stacking order is z-index-based, not source-order-based). Skipping
 it makes the README panel invisible under the backdrop the moment it's
 opened — cyworld shipped this exact bug once.
 
-The header-bar label color is computed *from* `--project-header-bg`
-(default: the page background) rather than a fixed gray — on a tinted
-background it comes out as a darker, more saturated shade of that same
-color automatically, at a contrast ratio that stays accessible, with no
-color to pick yourself. To bypass the computation — for a hand-picked
-color, or to guarantee the result independent of the visitor's browser
-(the computation needs CSS Color 5 relative-color support: Chrome 119+,
-Safari 16.4+, Firefox 128+) — set `--project-header-fg` instead; it's a
-plain absolute color that wins outright over the computed one.
+Both the header-bar labels and the README panel's own text (body copy,
+headings, `strong`, `code`) are computed *from* `--project-bg` rather
+than fixed grays — on a tinted background they come out as darker,
+more saturated shades of that same color automatically (a muted shade
+for labels/body copy, a near-black shade for headings), at contrast
+ratios that stay accessible, with no color to pick yourself. To bypass
+the computation — for a hand-picked color, or to guarantee the result
+independent of the visitor's browser (the computation needs CSS Color
+5 relative-color support: Chrome 119+, Safari 16.4+, Firefox 128+) —
+set `--project-muted-fg` and/or `--project-fg` instead; each is a plain
+absolute color that wins outright over its computed equivalent.
 
-Set `--project-header-bg` to whatever's actually visible right behind
-the header; for an animated background pick its dominant/
+Set `--project-bg` to whatever's actually visible right behind the
+header and README panel; for an animated background pick its dominant/
 average color, not a color that only appears in the animation some of
 the time.
+
+**Blurring the background when the README opens**: `ProjectHeader`
+reflects its open state onto `<html data-ph-open>` (present when open,
+absent when closed) specifically so a background rendered outside its
+own DOM — a sibling in your `App`, not a child — can react to it
+without any prop wiring. Give your backdrop a transition and blur it
+heavily on that attribute — heavily enough to read as one wash of
+color rather than a legible pattern, so it doesn't compete with the
+README text sitting on top of it:
+
+```css
+.my-backdrop {
+  transition: filter 0.4s ease;
+}
+:root[data-ph-open] .my-backdrop {
+  filter: blur(100px);
+}
+```
 
 ## 5. Deploy to GitHub Pages
 
@@ -188,6 +208,6 @@ page is live at `helenhsong.github.io/<repo-name>`.
 - [ ] `App` renders `<ProjectHeader readme={readme} />` with README.md imported via `?raw`
 - [ ] `@helenhsong/ui/style.css` imported once (also loads iA Writer Mono V for the header bar — nothing extra to do)
 - [ ] README.md opens with `# Title` + a one-line tagline paragraph, for the subtitle spacing to kick in
-- [ ] If the page has its own background: header is `bg-transparent`, `--project-header-bg` is set to it, and the background itself is `zIndex: -1` (else it hides the README panel when opened)
+- [ ] If the page has its own background: header is `bg-transparent`, `--project-bg` is set to it, the background itself is `zIndex: -1` (else it hides the README panel when opened), and it blurs heavily on `:root[data-ph-open]`
 - [ ] `.github/workflows/deploy.yml` in place
 - [ ] Pages enabled on the repo with `build_type=workflow`

@@ -157,53 +157,61 @@
     }
 }
 
-/* What ProjectHeader's header-bar labels should be legible against.
+/* What the header bar and the README panel are legible against.
    Defaults to the page's own background token, but a project that
-   paints something else behind the header (a color, a shader/image
-   backdrop — see cyworld) should set this to that color so the label
-   text can react to it. Plain custom property, not a Tailwind/shadcn
-   design token — it's a per-project override hook, not a themeable
-   palette entry. */
+   paints something else behind them (a color, a shader/image backdrop
+   — see cyworld) should set this to that color so their text reacts
+   to it. Plain custom property, not a Tailwind/shadcn design token —
+   it's a per-project override hook, not a themeable palette entry. */
 :root {
-  --project-header-bg: var(--color-background);
+  --project-bg: var(--color-background);
 }
-/* ProjectHeader's header-bar label color — computed from
-   --project-header-bg rather than a fixed gray, so it's always "in
-   family" with whatever the page puts behind it and reads clearly on
-   it, with no per-project color choice needed:
-   - lightness is pulled 0.444 below the background's own lightness.
-     For the default white background this lands exactly on the
-     0.556 lightness this site already used as its muted-foreground
-     gray; for a tinted background it's a comparably darker shade of
-     the SAME tint rather than a shade of gray.
-   - chroma is scaled 3x. For an achromatic background (chroma 0)
+/* Two text colors computed from --project-bg rather than fixed grays,
+   so both the header-bar labels and the README panel's copy are
+   always "in family" with whatever the page puts behind them and
+   read clearly on it, with no per-project color choice needed —
+   mirrors this file's own --foreground/--muted-foreground pairing,
+   just derived from a background that isn't necessarily this site's:
+   - --project-muted-fg (header labels, README body copy, list items):
+     lightness pulled 0.444 below the background's own lightness. For
+     the default white background this lands exactly on the 0.556
+     lightness this site already used as its muted-foreground gray;
+     for a tinted background it's a comparably darker shade of the
+     SAME tint rather than a shade of gray.
+   - --project-fg (README headings, strong, code): lightness pulled
+     0.855 below the background's — lands exactly on this site's 0.145
+     foreground black for a white background; for a tinted background,
+     a comparably near-black shade of the same tint.
+   - both scale chroma 3x. For an achromatic background (chroma 0)
      that's still 0 — the neutral case is untouched — but for a
-     colored background it pulls the label's hue clearly into view
-     rather than reading as a faint tint of gray.
-   Verified against cyworld's lavender shader backdrop (#E8E0F2): this
-   resolves to ~#67507E, a clearly-purple label at ~5.4:1 contrast
-   (WCAG AA for the 12px size used here needs ~4.5:1).
+     colored background it pulls the hue clearly into view rather than
+     reading as a faint tint of gray.
+   Verified against cyworld's lavender shader backdrop (#E8E0F2): these
+   resolve to ~#67507E (~5.4:1 contrast, this site's normal gray-on-
+   white contrast band) and ~#04000E (~16:1, similarly matching this
+   site's black-on-white headings) respectively.
 
-   --project-header-fg is an escape hatch: set it (a plain, absolute
-   color — no relative-color math) and it wins outright, no matter
-   what --project-header-bg is. Exists for two reasons: a project can
-   hand-pick a color instead of accepting the computed one, and the
-   computed path needs CSS Color 5 relative color syntax (Chrome 119+,
-   Safari 16.4+, Firefox 128+) — a project that wants correctness
-   guaranteed on old browsers, or independent of the visitor's exact
-   engine version, can pin the resolved value here instead of trusting
-   live computation. Unset, it changes nothing: var()'s fallback only
-   kicks in when the property is absent, so this line is inert by
-   default and every project keeps computing its label color live.
+   --project-muted-fg / --project-fg are also escape hatches: set
+   either (a plain, absolute color — no relative-color math) and it
+   wins outright, no matter what --project-bg is. Exists for two
+   reasons: a project can hand-pick a color instead of accepting the
+   computed one, and the computed path needs CSS Color 5 relative
+   color syntax (Chrome 119+, Safari 16.4+, Firefox 128+) — a project
+   that wants correctness guaranteed on old browsers, or independent
+   of the visitor's exact engine version, can pin the resolved value
+   here instead of trusting live computation. Unset, they change
+   nothing: var()'s fallback only kicks in when the property is
+   absent, so these are inert by default and every project keeps
+   computing its colors live.
 
-   In `@layer components` (below Tailwind's `utilities` in this
-   project's layer order), not left unlayered like `.ph-readme` below
-   — ProjectHeader pairs this class with `hover:text-foreground`, and
-   an unlayered rule would beat that utility outright regardless of
+   .ph-label is in `@layer components` (below Tailwind's `utilities`
+   in this project's layer order), not left unlayered like .ph-readme
+   below — ProjectHeader pairs it with `hover:text-foreground`, and an
+   unlayered rule would beat that utility outright regardless of
    specificity, breaking the hover state. */
 @layer components {
   .ph-label {
-    color: var(--project-header-fg, oklch(from var(--project-header-bg) calc(l - 0.444) calc(c * 3) h));
+    color: var(--project-muted-fg, oklch(from var(--project-bg) calc(l - 0.444) calc(c * 3) h));
   }
 }
 
@@ -217,7 +225,7 @@
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   font-size: 14px;
   line-height: 160%;
-  color: var(--muted-foreground);
+  color: var(--project-muted-fg, oklch(from var(--project-bg) calc(l - 0.444) calc(c * 3) h));
 }
 .ph-readme > :first-child {
   margin-top: 0;
@@ -229,7 +237,7 @@
   font-size: 14px;
   line-height: 160%;
   font-weight: 500;
-  color: var(--foreground);
+  color: var(--project-fg, oklch(from var(--project-bg) calc(l - 0.855) calc(c * 3) h));
 }
 /* A paragraph directly under the title reads as a subtitle/meta line
    (tagline, date) — sits flush under it, like Home's name+role, then
@@ -249,7 +257,7 @@
   font-size: 14px;
   line-height: 160%;
   font-weight: 500;
-  color: var(--foreground);
+  color: var(--project-fg, oklch(from var(--project-bg) calc(l - 0.855) calc(c * 3) h));
 }
 .ph-readme p {
   margin: 16px 0;
@@ -262,12 +270,12 @@
 }
 .ph-readme strong {
   font-weight: 600;
-  color: var(--foreground);
+  color: var(--project-fg, oklch(from var(--project-bg) calc(l - 0.855) calc(c * 3) h));
 }
 .ph-readme code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.9em;
-  color: var(--foreground);
+  color: var(--project-fg, oklch(from var(--project-bg) calc(l - 0.855) calc(c * 3) h));
   background: var(--muted);
   padding: 0.15em 0.4em;
   border-radius: 4px;
