@@ -24,14 +24,14 @@ export function App() {
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-10 p-8">
       <header className="flex flex-col gap-1">
-        <p className="font-mono text-xs tracking-wide text-muted-foreground uppercase">@helenhsong/ui</p>
+        <p className="text-sm text-muted-foreground">@helenhsong/ui</p>
         <h1 className="text-2xl font-semibold">Components</h1>
       </header>
 
       <div className="flex flex-col gap-8">
         {components.map(({ name, demo }) => (
           <section key={name} className="flex flex-col gap-3">
-            <h2 className="font-mono text-xs tracking-wide text-muted-foreground uppercase">{name}</h2>
+            <h2 className="text-sm font-medium text-muted-foreground">{name}</h2>
             <div className="rounded-lg border p-6">{demo}</div>
           </section>
         ))}
