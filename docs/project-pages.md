@@ -65,13 +65,28 @@ flow and doesn't assume it owns the rest of the page.
 ### Fonts
 
 The header bar (the "helenhsong.com" / "README" / "[close]" labels) uses
-`iA Writer Mono`. Unlike most fonts this package doesn't bundle (see
-[main README](../README.md#design-decisions)), this one ships in
+`iA Writer Mono` at 12px. Unlike most fonts this package doesn't bundle
+(see [main README](../README.md#design-decisions)), this one ships in
 `@helenhsong/ui/style.css` already — it's [SIL OFL licensed](https://github.com/iaolo/iA-Fonts)
 so redistributing it is fine, and only the one weight actually used is
 included. Nothing to do here; if the stylesheet import from step 4 is
 in place, the font just works. The README body itself renders in Inter,
 matching helenhsong.com's own content column.
+
+### Writing README.md for the README panel
+
+`ProjectHeader` renders whatever's actually in README.md, so the file
+doubles as the project page's content — a couple of conventions make it
+render well:
+
+- Start with a single `# Title` line — it gets the same foreground/medium
+  treatment as the name at the top of helenhsong.com.
+- Follow it immediately with a one-line tagline or description paragraph.
+  A paragraph directly under the title is styled as a subtitle (muted,
+  flush against the title), matching Home's name+role — the body copy
+  after it gets a bigger gap to separate the two.
+- Everything else (headings, lists, code blocks, links) renders with
+  plain, sensible typography — no special formatting needed.
 
 ## 5. Deploy to GitHub Pages
 
@@ -135,7 +150,7 @@ page is live at `helenhsong.github.io/<repo-name>`.
 - [ ] `vite.config.js` has `base: "/<repo-name>/"`
 - [ ] `npm install github:helenhsong/ui`
 - [ ] `App` renders `<ProjectHeader readme={readme} />` with README.md imported via `?raw`
-- [ ] `@helenhsong/ui/style.css` imported once
-- [ ] iA Writer Mono V loaded (optional, but matches the site)
+- [ ] `@helenhsong/ui/style.css` imported once (also loads iA Writer Mono V for the header bar — nothing extra to do)
+- [ ] README.md opens with `# Title` + a one-line tagline paragraph, for the subtitle spacing to kick in
 - [ ] `.github/workflows/deploy.yml` in place
 - [ ] Pages enabled on the repo with `build_type=workflow`
