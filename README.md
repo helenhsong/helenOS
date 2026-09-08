@@ -42,6 +42,26 @@ npm update @helenhsong/ui        # if depending on a branch
 # or bump the tag in package.json and reinstall, if pinned
 ```
 
+## Using it as a Claude Code skill
+
+[skills/helenos-ui/SKILL.md](skills/helenos-ui/SKILL.md) documents the whole
+library — what components exist, their props, and how to install them —
+as a single Claude Code skill. Two ways to use it elsewhere:
+
+- **Reference it in place.** Once installed via `npm install
+  github:helenhsong/helenOS`, the file also lives at
+  `node_modules/@helenhsong/ui/skills/helenos-ui/SKILL.md`.
+- **Drop it into another repo directly**, dependency or not:
+  ```bash
+  cp -r node_modules/@helenhsong/ui/skills/helenos-ui .claude/skills/
+  # or, without installing the package first:
+  curl -L https://raw.githubusercontent.com/helenhsong/helenOS/main/skills/helenos-ui/SKILL.md \
+    -o .claude/skills/helenos-ui/SKILL.md
+  ```
+
+It's one skill for the whole library, not one per component — adding a
+component means appending a section to `SKILL.md`, not creating a new skill.
+
 ## Developing in this repo
 
 ```bash
@@ -56,6 +76,7 @@ Add new work-in-progress components to `src/dev/App.tsx` to see them rendered li
 1. Create `src/components/MyThing/MyThing.tsx`, `MyThing.module.css`, and `index.ts` (see `src/components/Button` for the pattern).
 2. Re-export it from [src/index.ts](src/index.ts) — anything not exported there isn't part of the public package.
 3. Preview it via `src/dev/App.tsx`.
+4. Add a section for it to [skills/helenos-ui/SKILL.md](skills/helenos-ui/SKILL.md).
 
 ### Scripts
 

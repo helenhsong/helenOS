@@ -1,9 +1,9 @@
 import { useState, type ReactNode } from "react";
 import { Button } from "../components/Button";
 import { ProjectHeader } from "../components/ProjectHeader";
-import buttonDocs from "../components/Button/Button.md?raw";
-import projectHeaderDocs from "../components/ProjectHeader/ProjectHeader.md?raw";
-import { PlaygroundSection, type PlaygroundMode } from "./PlaygroundSection";
+import helenosUiSkill from "../../skills/helenos-ui/SKILL.md?raw";
+import { PlaygroundSection } from "./PlaygroundSection";
+import { DocsView } from "./DocsView";
 import styles from "./App.module.css";
 
 function ProjectHeaderDemo() {
@@ -22,14 +22,15 @@ function ButtonDemo() {
 }
 
 // One entry per component. Add a new one here as components are built —
-// this list is the whole catalog, in both component and docs mode.
-const sections: { title: string; demo: ReactNode; docs: string }[] = [
-  { title: "ProjectHeader", demo: <ProjectHeaderDemo />, docs: projectHeaderDocs },
-  { title: "Button", demo: <ButtonDemo />, docs: buttonDocs },
+// this list is the component catalog. Docs mode reads from the single
+// consolidated skill file instead (skills/helenos-ui/SKILL.md).
+const sections: { title: string; demo: ReactNode }[] = [
+  { title: "ProjectHeader", demo: <ProjectHeaderDemo /> },
+  { title: "Button", demo: <ButtonDemo /> },
 ];
 
 export function App() {
-  const [mode, setMode] = useState<PlaygroundMode>("components");
+  const [mode, setMode] = useState<"components" | "docs">("components");
 
   return (
     <div className={styles.page}>
@@ -56,11 +57,17 @@ export function App() {
       </header>
 
       <main className={styles.sections}>
-        {sections.map(({ title, demo, docs }) => (
-          <PlaygroundSection key={title} title={title} mode={mode} docs={docs}>
-            {demo}
+        {mode === "components" ? (
+          sections.map(({ title, demo }) => (
+            <PlaygroundSection key={title} title={title}>
+              {demo}
+            </PlaygroundSection>
+          ))
+        ) : (
+          <PlaygroundSection title="Skill reference">
+            <DocsView markdown={helenosUiSkill} />
           </PlaygroundSection>
-        ))}
+        )}
       </main>
     </div>
   );
