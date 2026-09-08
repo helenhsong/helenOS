@@ -35,17 +35,12 @@ export default defineConfig({
           external: ["react", "react-dom", "react/jsx-runtime"],
           output: {
             // Name the single compiled stylesheet style.css; leave every other
-            // asset (self-hosted font files, etc.) with its default hashed name
-            // so they don't collide with each other.
+            // asset with its default hashed name so they don't collide.
             assetFileNames: (asset) => (asset.names?.[0]?.endsWith(".css") ? "style.css" : "assets/[name]-[hash][extname]"),
           },
         },
         cssCodeSplit: false,
         sourcemap: true,
-        // Emit font files as separate assets instead of base64-inlining them
-        // into style.css — inlining would defeat the self-hosted fonts'
-        // unicode-range subsetting, forcing every consumer to download every
-        // language subset instead of just the one their text needs.
         assetsInlineLimit: 0,
       }
     : undefined,
