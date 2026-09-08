@@ -40,6 +40,14 @@ and depend on the tag instead of the branch:
 npm install github:helenhsong/ui#v0.1.0
 ```
 
+## Setting up a project page
+
+Every repo served at `helenhsong.github.io/<project>` starts from the
+same template: a blank page with [`ProjectHeader`](src/components/ProjectHeader/ProjectHeader.tsx)
+at the top (home link + a toggle that swaps the page for the project's
+own README.md). See [docs/project-pages.md](docs/project-pages.md) for
+the full walkthrough, from scaffolding through deploying to Pages.
+
 ## Developing in this repo
 
 ```bash
@@ -59,7 +67,9 @@ there isn't part of the public package. Preview it via `src/dev/App.tsx`.
 
 For something fully custom (not a shadcn primitive), build it under
 `src/components/<Name>/`, styled with Tailwind utilities and the shared
-`cn()` helper from `@/lib/utils`, and export it the same way.
+`cn()` helper from `@/lib/utils`, and export it the same way — see
+[`ProjectHeader`](src/components/ProjectHeader/ProjectHeader.tsx) for an
+example.
 
 ### Scripts
 

@@ -1,6 +1,8 @@
 import type { ComponentType } from "react";
 import { ButtonExample } from "./examples/button";
 import buttonSource from "./examples/button.tsx?raw";
+import { ProjectHeaderExample } from "./examples/project-header";
+import projectHeaderSource from "./examples/project-header.tsx?raw";
 import { ComponentEntry } from "./ComponentEntry";
 
 // One entry per component. Add a new one here as components are built:
@@ -14,6 +16,14 @@ const components: { slug: string; name: string; description: string; Example: Co
     description: "Displays a button, or a component that looks like a button.",
     Example: ButtonExample,
     source: buttonSource,
+  },
+  {
+    slug: "project-header",
+    name: "ProjectHeader",
+    description:
+      "The header every project page (helenhsong.github.io/<project>) shares: a link home, and a toggle that swaps the page for the project's rendered README.",
+    Example: ProjectHeaderExample,
+    source: projectHeaderSource,
   },
 ];
 

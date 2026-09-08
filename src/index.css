@@ -138,3 +138,81 @@
     @apply font-sans;
     }
 }
+
+/* Typography for markdown rendered by ProjectHeader's README panel.
+   Plain descendant selectors (not a typography plugin) so it stays cheap
+   and easy to tweak alongside the rest of this file's tokens. */
+.ph-readme {
+  font-family: "iAWriterQuattroV-Regular", "iA Writer Quattro V", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--foreground);
+}
+.ph-readme > :first-child {
+  margin-top: 0;
+}
+.ph-readme h1,
+.ph-readme h2,
+.ph-readme h3 {
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.ph-readme h1 {
+  font-size: 1.6em;
+}
+.ph-readme h2 {
+  font-size: 1.3em;
+}
+.ph-readme h3 {
+  font-size: 1.1em;
+}
+.ph-readme p {
+  margin: 1em 0;
+}
+.ph-readme a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ph-readme code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--muted);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+.ph-readme pre {
+  background: var(--muted);
+  padding: 1em;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.ph-readme pre code {
+  background: none;
+  padding: 0;
+}
+.ph-readme ul,
+.ph-readme ol {
+  margin: 1em 0;
+  padding-left: 1.5em;
+}
+.ph-readme li {
+  margin: 0.35em 0;
+}
+.ph-readme blockquote {
+  margin: 1em 0;
+  padding-left: 1em;
+  border-left: 2px solid var(--border);
+  color: var(--muted-foreground);
+}
+.ph-readme hr {
+  margin: 2em 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+.ph-readme img {
+  max-width: 100%;
+  border-radius: 8px;
+}
