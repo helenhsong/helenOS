@@ -18,8 +18,11 @@ does not authorize overwriting an existing directory or repository.
 ## Invocation and targets
 
 - If no project name was supplied, ask only for the name.
-- Preserve the supplied name for the README heading and browser title. Keep
-  that same browser title on the project root and README child page.
+- Format the supplied project name as a proper work title for the README
+  heading and browser title (for example, `Cyworld`, not `cyworld`). Use
+  conventional title capitalization while preserving an intentional brand
+  spelling in the supplied name. Keep that exact browser title on the project
+  root and README child page.
 - Derive the repository slug by lowercasing the name, replacing spaces with
   hyphens, and removing characters other than letters, digits, and hyphens.
 - Create `/Users/helensong/Documents/projects/repositories/<repo-slug>`.
@@ -263,7 +266,8 @@ build/deployment status.
       `?raw` and imports `@helenhsong/ui/style.css` once.
 - [ ] The README link navigates to `/<repo-slug>/readme/`; direct visits,
       refreshes, and browser back/forward navigation all work.
-- [ ] The browser title stays exactly the project name on both routes.
+- [ ] The browser title uses proper title capitalization and stays exactly the
+      same on both routes.
 - [ ] No project code modifies shared-header or README styling, presentation
       tokens, layout, typography, backdrop, or transitions.
 - [ ] Project content and all of its styling live under a sibling project-owned
