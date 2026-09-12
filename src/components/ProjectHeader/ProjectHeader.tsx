@@ -138,26 +138,28 @@ export function ProjectHeader({
 
   return (
     <>
-      <header
-        className={cn(
-          "sticky top-0 z-10 flex items-center justify-between bg-background px-8 py-6",
-          className
-        )}
-      >
-        <a href={homeHref} className={labelClassName}>
-          {homeLabel}
-        </a>
-        {hasReadme && (
-          <a
-            href={open ? projectHref : readmeHref}
-            aria-expanded={open}
-            onClick={(event) => handleNavigation(event, !open)}
-            className={labelClassName}
-          >
-            {open ? closeLabel : openLabel}
+      <div className="h-[66px]">
+        <header
+          className={cn(
+            "fixed inset-x-0 top-0 z-10 flex items-center justify-between bg-background px-8 py-6",
+            className
+          )}
+        >
+          <a href={homeHref} className={labelClassName}>
+            {homeLabel}
           </a>
-        )}
-      </header>
+          {hasReadme && (
+            <a
+              href={open ? projectHref : readmeHref}
+              aria-expanded={open}
+              onClick={(event) => handleNavigation(event, !open)}
+              className={labelClassName}
+            >
+              {open ? closeLabel : openLabel}
+            </a>
+          )}
+        </header>
+      </div>
 
       {readmeOpen && (
         <div
