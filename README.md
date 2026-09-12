@@ -44,9 +44,10 @@ npm install github:helenhsong/ui#v0.1.0
 
 Every repo served at `helenhsong.github.io/<project>` starts from the
 same template: a blank page with [`ProjectHeader`](src/components/ProjectHeader/ProjectHeader.tsx)
-at the top (home link + a toggle that swaps the page for the project's
-own README.md). See [docs/project-pages.md](docs/project-pages.md) for
-the full walkthrough, from scaffolding through deploying to Pages.
+at the top (home link + a link to the project's README child page). Use the
+[`$new-project` skill](skills/new-project/SKILL.md)
+for the full template and automated workflow, from scaffolding through
+deploying to Pages.
 
 ## Developing in this repo
 
