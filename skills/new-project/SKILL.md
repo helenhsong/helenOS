@@ -25,6 +25,8 @@ does not authorize overwriting an existing directory or repository.
   root and README child page.
 - Derive the repository slug by lowercasing the name, replacing spaces with
   hyphens, and removing characters other than letters, digits, and hyphens.
+  The lowercase repository slug is URL-only and must never determine the
+  capitalization of the browser title or README heading.
 - Create `/Users/helensong/Documents/projects/repositories/<repo-slug>`.
 - Create the public GitHub repository `helenhsong/<repo-slug>`.
 
