@@ -255,10 +255,11 @@
 .ph-readme p {
   margin: 16px 0;
 }
-/* Markdown wraps a standalone image in <p><img /></p>. Make that
-   wrapper a real image block: it keeps the same paragraph rhythm while
+/* Markdown wraps a standalone image in <p><img /></p>. Give image
+   blocks a little more breathing room than text paragraphs while
    dropping the inline-image baseline gap. */
 .ph-readme p:has(> img:only-child) {
+  margin: 24px 0;
   line-height: 0;
 }
 .ph-readme p > img:only-child {
