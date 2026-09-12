@@ -79,6 +79,23 @@ The package owns the header font and the README typography. A project's design
 brief applies only to project-owned content unless the user explicitly asks to
 change the shared UI package itself in a separate task.
 
+### Scrollbars
+
+Set the site-wide scrollbar convention once on `html` in the project's global
+stylesheet so it inherits into every native scroll surface:
+
+```css
+html {
+  scrollbar-width: thin;
+  scrollbar-color: gray transparent;
+}
+```
+
+Use native scrolling and a transparent track. Do not override this per
+component unless an area intentionally hides its native scrollbar for a
+custom-drawn scrollbar or a swipe-only carousel; those exceptions may retain
+`scrollbar-width: none` and `::-webkit-scrollbar { display: none; }`.
+
 ## 1. Scaffold the app
 
 ```bash
@@ -274,6 +291,8 @@ build/deployment status.
       tokens, layout, typography, backdrop, or transitions.
 - [ ] Project content and all of its styling live under a sibling project-owned
       root, with no global selectors that cascade into shared chrome.
+- [ ] The global stylesheet sets thin gray native scrollbars on transparent
+      tracks once on `html`; only intentional hidden/custom scroll areas opt out.
 - [ ] README.md starts with one `# Title` and relies on the shared renderer.
 - [ ] Project-owned loading and motion are coordinated, accessible, scoped,
       and reduced-motion safe when present.
