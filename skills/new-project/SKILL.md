@@ -56,6 +56,9 @@ this skill.
 
 - Import the package stylesheet and render `ProjectHeader` with its default
   presentation.
+- Use a package version that includes the standard Cyworld-derived README
+  transition. `ProjectHeader` owns the veil, fade, closing lift, timing, and
+  reduced-motion behavior; project repositories must not recreate them.
 - Never edit, replace, restyle, theme, animate, or visually wrap the header or
   README panel from a project repository.
 - Never target `.ph-*`, the header element, or README descendants from project
@@ -184,6 +187,19 @@ and let the shared renderer control presentation:
 - Use normal headings, lists, code blocks, and links without project-specific
   wrappers or presentation classes.
 
+### README transition
+
+Use the default package-owned README transition, derived from Cyworld: the
+veil and content fade in together over 240 ms; on close, the content fades and
+lifts 8 px over 140 ms while the veil fades and lifts 14 px over 160 ms. The
+component keeps the README mounted and project content hidden until closing
+finishes, and disables the animation for `prefers-reduced-motion`.
+
+Do not add controlled close timers, transition veils, `.ph-readme` animation
+rules, or replacement keyframes in a project repository. Pin a shared UI
+release or exact commit that provides this behavior and use `ProjectHeader`'s
+default open/close handling.
+
 ## 5. Project-owned loading and motion
 
 When project content uses several images, sprites, fonts, or canvas layers,
@@ -289,6 +305,8 @@ build/deployment status.
       same on both routes.
 - [ ] No project code modifies shared-header or README styling, presentation
       tokens, layout, typography, backdrop, or transitions.
+- [ ] `@helenhsong/ui` includes the standard Cyworld-derived README
+      fade-and-lift transition; the project does not duplicate it locally.
 - [ ] Project content and all of its styling live under a sibling project-owned
       root, with no global selectors that cascade into shared chrome.
 - [ ] The global stylesheet sets thin gray native scrollbars on transparent

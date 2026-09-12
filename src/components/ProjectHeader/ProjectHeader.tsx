@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type MouseEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import { cn } from "@/lib/utils";
 import { renderReadmeHtml } from "./readme-markdown";
 
@@ -102,6 +102,43 @@ export function ProjectHeader({
   );
 
   const readmeOpen = open && hasReadme;
+  const [readmeMounted, setReadmeMounted] = useState(readmeOpen);
+  const [readmeClosing, setReadmeClosing] = useState(false);
+  const readmeCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (readmeCloseTimer.current) {
+      clearTimeout(readmeCloseTimer.current);
+      readmeCloseTimer.current = null;
+    }
+
+    if (readmeOpen) {
+      setReadmeMounted(true);
+      setReadmeClosing(false);
+      return;
+    }
+
+    if (!readmeMounted) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setReadmeMounted(false);
+      setReadmeClosing(false);
+      return;
+    }
+
+    setReadmeClosing(true);
+    readmeCloseTimer.current = setTimeout(() => {
+      setReadmeMounted(false);
+      setReadmeClosing(false);
+      readmeCloseTimer.current = null;
+    }, 160);
+
+    return () => {
+      if (readmeCloseTimer.current) {
+        clearTimeout(readmeCloseTimer.current);
+        readmeCloseTimer.current = null;
+      }
+    };
+  }, [readmeMounted, readmeOpen]);
 
   useEffect(() => {
     const syncFromPath = () => {
@@ -125,11 +162,11 @@ export function ProjectHeader({
   // See the "A project with its own background" section of
   // skills/new-project/SKILL.md.
   useEffect(() => {
-    document.documentElement.toggleAttribute("data-ph-open", readmeOpen);
+    document.documentElement.toggleAttribute("data-ph-open", readmeMounted);
     return () => {
       document.documentElement.removeAttribute("data-ph-open");
     };
-  }, [readmeOpen]);
+  }, [readmeMounted]);
 
   const { projectHref, readmeHref } =
     typeof window === "undefined"
@@ -161,11 +198,20 @@ export function ProjectHeader({
         </header>
       </div>
 
-      {readmeOpen && (
-        <div
-          className="ph-readme mx-auto max-w-125 px-7.5 py-18"
-          dangerouslySetInnerHTML={{ __html: readmeHtml }}
-        />
+      {readmeMounted && (
+        <>
+          <div
+            className={cn("ph-readme-veil", readmeClosing && "is-closing")}
+            aria-hidden="true"
+          />
+          <div
+            className={cn(
+              "ph-readme mx-auto max-w-125 px-7.5 py-18",
+              readmeClosing && "is-closing"
+            )}
+            dangerouslySetInnerHTML={{ __html: readmeHtml }}
+          />
+        </>
       )}
     </>
   );

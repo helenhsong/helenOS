@@ -221,10 +221,31 @@
    selectors (not a typography plugin) keep this cheap and easy to
    tweak alongside the rest of this file's tokens. */
 .ph-readme {
+  position: relative;
+  z-index: 5;
   font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
   font-size: 14px;
   line-height: 160%;
   color: var(--project-muted-fg, oklch(from var(--project-bg) calc(l - 0.444) calc(c * 3) h));
+  animation: ph-readme-content-in 0.24s ease-in-out both;
+}
+.ph-readme-veil {
+  position: fixed;
+  z-index: 4;
+  inset: 0;
+  pointer-events: none;
+  background: rgb(255 255 255 / 94%);
+  background: color-mix(in srgb, var(--project-bg) 94%, transparent);
+  -webkit-backdrop-filter: blur(28px);
+  backdrop-filter: blur(28px);
+  animation: ph-readme-veil-in 0.24s ease-in-out both;
+}
+.ph-readme.is-closing {
+  pointer-events: none;
+  animation: ph-readme-content-out 0.14s cubic-bezier(0.2, 0, 0.4, 1) both;
+}
+.ph-readme-veil.is-closing {
+  animation: ph-readme-veil-out 0.16s cubic-bezier(0.2, 0, 0.4, 1) both;
 }
 .ph-readme > :first-child {
   margin-top: 0;
@@ -314,4 +335,45 @@
 .ph-readme img {
   max-width: 100%;
   border-radius: 8px;
+}
+
+@keyframes ph-readme-veil-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ph-readme-veil-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes ph-readme-content-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ph-readme-content-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ph-readme,
+  .ph-readme.is-closing,
+  .ph-readme-veil,
+  .ph-readme-veil.is-closing {
+    animation: none;
+  }
 }
