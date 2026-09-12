@@ -21,7 +21,7 @@ const components: { slug: string; name: string; description: string; Example: Co
     slug: "project-header",
     name: "ProjectHeader",
     description:
-      "The header every project page (helenhsong.github.io/<project>) shares: a link home, and a toggle that swaps the page for the project's rendered README.",
+      "The header every project page (helenhsong.github.io/<project>) shares: a link home, and a link to the project's rendered README child page.",
     Example: ProjectHeaderExample,
     source: projectHeaderSource,
   },
